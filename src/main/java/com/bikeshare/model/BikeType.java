@@ -55,7 +55,8 @@ public enum BikeType {
      */
     public double getPricePerMinute() {
         return pricePerMinute;
-        //test branch
+        //test fork
+        
     }
     
     /**
