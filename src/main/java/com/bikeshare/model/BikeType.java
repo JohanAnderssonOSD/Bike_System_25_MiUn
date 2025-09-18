@@ -1,6 +1,6 @@
 package com.bikeshare.model;
 
-/**
+/**in i docs/requirements.md?najokdnu
  * Enumeration representing different types of bikes available in the system.
  */
 public enum BikeType {

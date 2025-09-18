@@ -308,7 +308,7 @@ public class User {
             discount += 0.05;
         } else if (totalRides > 50) {
             discount += 0.03;
-        }
+        } 
         
         return Math.min(discount, 0.30); // Max 30% discount
     }

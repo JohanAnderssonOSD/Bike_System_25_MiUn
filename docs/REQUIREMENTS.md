@@ -9,10 +9,14 @@ The BikeShare System is a bike rental platform that allows users to rent bikes f
 ### 2.1 User Management
 
 **FR-1.1 User Registration**
-- The system SHALL allow users to register with email, name, and phone number
+- The system SHALL allow users to register with email, name, and phone number 
+
 - Email addresses MUST be unique and follow valid email format (RFC 5322)
+
 - Names MUST be between 2-50 characters and contain only letters, spaces, hyphens, and apostrophes
+
 - Phone numbers MUST follow Swedish national format (07X-XXX XX XX) or international format (+46 7X XXX XX XX)
+
 - Users MUST accept terms and conditions during registration
 
 **FR-1.2 User Profile Management**
@@ -20,7 +24,7 @@ The BikeShare System is a bike rental platform that allows users to rent bikes f
 - Users SHALL be able to change their password (minimum 8 characters, containing uppercase, lowercase, and numbers)
 - The system SHALL maintain user registration timestamp and last login information
 
-**FR-1.3 Account Balance Management**
+**FR-1.3 Account Balance Management** HÄR ÄR FUNDS oj skrika
 - Users SHALL be able to add funds to their account
 - Minimum fund addition: 0.10 SEK
 - Maximum fund addition: 10,000.00 SEK per transaction
