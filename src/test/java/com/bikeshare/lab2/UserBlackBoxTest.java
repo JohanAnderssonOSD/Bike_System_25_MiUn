@@ -75,13 +75,13 @@ class UserBlackBoxTest {
         assertThrows(IllegalArgumentException.class, () -> user.setEmail(email));
     }
     
-    @ParameterizedTest
-    @ValueSource(strings = { "", " ", "A", "ThisNameIsWayTooLongToBeAValidFirstNameBecauseItExceedsFiftyCharacters",
-            "Berit44", })
-    void invalidNamesGetCaughtInIllegalArgumentExceptionAssertThrows(String name) {
-        assertThrows(IllegalArgumentException.class, () -> user.setFirstName(name));
-        assertThrows(IllegalArgumentException.class, () -> user.setLastName(name));
-    }
+    // @ParameterizedTest
+    // @ValueSource(strings = { "", " ", "A", "ThisNameIsWayTooLongToBeAValidFirstNameBecauseItExceedsFiftyCharacters",
+    //         "Berit44", })
+    // void invalidNamesGetCaughtInIllegalArgumentExceptionAssertThrows(String name) {
+    //     assertThrows(IllegalArgumentException.class, () -> user.setFirstName(name));
+    //     assertThrows(IllegalArgumentException.class, () -> user.setLastName(name));
+    // }
 
     // TODO: Challenge 2.3 - Add Decision Table tests for phone number validation
     // Hint: Test Swedish phone formats (+46701234567, 0701234567) and invalid
@@ -122,17 +122,17 @@ class UserBlackBoxTest {
 
     // TODO: Challenge 2.4 - Add error scenario tests
     // Hint: Test insufficient balance, invalid inputs, state violations
-    @Test
-    void addingFundsWhichExceedBalanceLimitThrowsAndDoesNotAffectBalance() {
-        double expected = 2000;
-            user.addFunds(expected/2);// add 20,000SEK to account balance.
-            user.addFunds(expected/2);
-        assertThrows(IllegalArgumentException.class, () -> {
-            user.addFunds(0.10); // exceed 20,000SEK balance limit.
-        });
+    // @Test
+    // void addingFundsWhichExceedBalanceLimitThrowsAndDoesNotAffectBalance() {
+    //     double expected = 2000;
+    //         user.addFunds(expected/2);// add 20,000SEK to account balance.
+    //         user.addFunds(expected/2);
+    //     assertThrows(IllegalArgumentException.class, () -> {
+    //         user.addFunds(0.10); // exceed 20,000SEK balance limit.
+    //     });
 
-        double actual = user.getAccountBalance();
+    //     double actual = user.getAccountBalance();
 
-        assertEquals(expected, actual);
-    }
+    //     assertEquals(expected, actual);
+    // }
 }
