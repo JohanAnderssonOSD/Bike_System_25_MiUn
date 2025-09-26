@@ -114,7 +114,7 @@ public class BikeStructuralTest {
 
     @Test
     void bike_cannot_charge_battery_when_bike_type_not_electric_assert_throws() {
-        
+
         assertFalse(bike.getType().equals(Bike.BikeType.ELECTRIC));
         assertThrows(IllegalStateException.class, () -> bike.chargeBattery(10));
     }

@@ -10,7 +10,7 @@ import com.bikeshare.model.Station;
 import com.bikeshare.model.Station.StationStatus;
 import com.bikeshare.model.Bike.BikeType;
 
-public class StationBikeIntegrationTest {
+public class BikeStationTest {
     Bike bike = new Bike("bikey", Bike.BikeType.STANDARD);
     Station station = new Station("st-1-b", "Station 1-B", "Biblioteksgatan 6B", 63.64, 34.64, 15);
 
