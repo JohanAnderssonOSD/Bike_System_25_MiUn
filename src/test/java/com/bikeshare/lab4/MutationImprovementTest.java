@@ -9,7 +9,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.InjectMocks;
@@ -152,31 +155,51 @@ public class MutationImprovementTest {
         // adjustment logic (age--) needs to be executed
         // Hint: Create a person born in December, test before their birthday
         // Hint: This targets the survived mutations in the current tests
-        String dateInDecember = LocalDate.of(2005, 12, 31).toString().replace("-", "") + "6512";
 
         // Think about it: If someone is born Dec 31, 2005 and today is Dec 30, 2023,
         // they are technically still 17 (haven't had their 18th birthday yet)
 
-        String preBirthdayId = "0512316512"; // Complete this
+        String preBirthdayId = "200512316512"; // Complete this
         // Configure mocks appropriately
 
         when(mockIdValidator.isValidIDNumber(preBirthdayId)).thenReturn(true);
-        when(mockBankIdService.authenticate(preBirthdayId)).thenReturn(false);
-        // Mockito.mockStatic(LocalDate.class.get);
-        when(LocalDate.now()).thenReturn(LocalDate.of(2023, 12, 30));
+        when(mockBankIdService.authenticate(preBirthdayId)).thenReturn(true);
 
-        // hejhej! Här ska vi fortsätta! Vi fick inte till override på local date(som
-        // ska bli 2023 i det här fallet)
-        assertThrows(IllegalArgumentException.class, () -> ageValidator.isAdult(preBirthdayId));
-        // Test that they are NOT adult yet
+        LocalDate mockedCurrentDate = LocalDate.of(2023, 12, 30);
+
+        // https://www.browserstack.com/guide/mockito-mock-static-method
+        // https://site.mockito.org/javadoc/current/org/mockito/MockSettings.html
+        try (MockedStatic<LocalDate> mocked = Mockito.mockStatic(LocalDate.class,
+                withSettings().defaultAnswer(CALLS_REAL_METHODS))) {
+            mocked.when(() -> LocalDate.now()).thenReturn(mockedCurrentDate);
+            // Test that they are NOT adult yet
+            assertFalse(ageValidator.isAdult(preBirthdayId));
+        }
     }
 
     // TODO: Write more tests for other mutation types
     // Hint: Look at the mutation report to see what other mutations exist
     // Examples: return value mutations, math operator mutations, etc.
+    @Test
+    void shouldNotKillBirthdayMutation_PersonOnBirthday() {
+        String preBirthdayId = "200512316512";
+
+        when(mockIdValidator.isValidIDNumber(preBirthdayId)).thenReturn(true);
+        when(mockBankIdService.authenticate(preBirthdayId)).thenReturn(true);
+
+        LocalDate mockedCurrentDate = LocalDate.of(2023, 12, 31); // Test on the birthday instead
+
+        try (MockedStatic<LocalDate> mocked = Mockito.mockStatic(LocalDate.class,
+                withSettings().defaultAnswer(CALLS_REAL_METHODS))) {
+            mocked.when(() -> LocalDate.now()).thenReturn(mockedCurrentDate);
+            // Test that they are NOT adult yet
+            assertTrue(ageValidator.isAdult(preBirthdayId));
+        }
+    }
 
     // TODO: Test User class mutations (optional)
     // Hint: Create tests for User.java methods that have survived mutations
+
     @Test
     @DisplayName("Should test User class mutations")
     void shouldTestUserMutations() {
@@ -184,6 +207,15 @@ public class MutationImprovementTest {
         // Create User objects and test their methods
         // Use mocks if User has dependencies in the future
     }
+
+    @Test
+    void shouldKillIfFundsAmountLessThan1000ButMoreThan0() {
+        User user = new User("901101-1237", "valid@adress.com", "denniz", "usersson");
+        assertDoesNotThrow(() -> user.addFunds(1000), "Adding funds under 1000 should not throw.");
+        assertDoesNotThrow(() -> user.addFunds(1), "Adding funds over 1 should not throw.");
+    }
+
+
 
     // MEASUREMENT: After implementing your tests, run mutation testing again:
     // mvn clean test org.pitest:pitest-maven:mutationCoverage -Pmutation-demo

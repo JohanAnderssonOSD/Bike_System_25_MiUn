@@ -447,5 +447,107 @@
                 </plugins>
             </build>
         </profile>
+                <!-- Coverage vs Mutation Comparison Profile -->
+        <profile>
+            <id>coverage-comparison</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-maven</artifactId>
+                        <version>${pitest.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.pitest</groupId>
+                                <artifactId>pitest-junit5-plugin</artifactId>
+                                <version>1.2.1</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <!-- Target classes for mutation analysis -->
+                            <targetClasses>
+                                <param>com.bikeshare.service.validation.AgeValidator</param>
+                                <param>com.bikeshare.model.User</param>
+                            </targetClasses>
+                            
+                            <!-- Coverage-focused test analysis -->
+                            <targetTests>
+                                <param>com.bikeshare.lectures.CoverageEx</param>
+                            </targetTests>
+                            
+                            <!-- Use comprehensive mutators for better comparison -->
+                            <mutators>
+                                <mutator>DEFAULTS</mutator>
+                            </mutators>
+                            
+                            <outputFormats>
+                                <outputFormat>HTML</outputFormat>
+                                <outputFormat>XML</outputFormat>
+                            </outputFormats>
+                            
+                            <verbose>true</verbose>
+                            <threads>2</threads>
+                            <timeoutConstant>4000</timeoutConstant>
+                            
+                            <!-- Generate detailed reports for comparison -->
+                            <exportLineCoverage>true</exportLineCoverage>
+                            <timestampedReports>false</timestampedReports>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Quick Mutation Testing for Demos -->
+        <profile>
+            <id>mutation-demo</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-maven</artifactId>
+                        <version>${pitest.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.pitest</groupId>
+                                <artifactId>pitest-junit5-plugin</artifactId>
+                                <version>1.2.1</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <!-- Focus on key classes for quick demo -->
+                            <targetClasses>
+                                <param>com.bikeshare.service.validation.impl.AlcoholPurchaseValidator</param>
+                                <param>com.bikeshare.model.User</param>
+                                <param>com.bikeshare.service.validation.AgeValidator</param>
+                            </targetClasses>
+                            
+                            <targetTests>
+                                <param>com.bikeshare.lectures.*</param>
+                                <param>com.bikeshare.lab4*</param>
+                                <param>com.bikeshare.lab2*</param>
+
+
+                            </targetTests>
+                            
+                            <mutators>
+                                <mutator>CONDITIONALS_BOUNDARY</mutator>
+                                <mutator>INCREMENTS</mutator>
+                                <mutator>MATH</mutator>
+                                <mutator>NEGATE_CONDITIONALS</mutator>
+                            </mutators>
+                            
+                            <outputFormats>
+                                <outputFormat>HTML</outputFormat>
+                            </outputFormats>
+                            
+                            <verbose>true</verbose>
+                            <threads>1</threads>
+                            <timeoutConstant>3000</timeoutConstant>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
